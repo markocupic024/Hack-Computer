@@ -1,10 +1,15 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_FIELD_BUFFER_LEN 4
+#define MAX_FIELD_BUFFER_LEN 5
+
+#define A_INSTRUCTION_VALUE_MAX 32767
 
 #define A_INSTRUCTION_SYMBOL '@'
 
@@ -12,11 +17,9 @@
 
 #define C_INSTRUCTION_JMP_SYMBOL ';'
 
-#ifndef PARSER_H
-#define PARSER_H
-
 typedef enum
 {
+    INVALID_INSTRUCTION,
     A_INSTRUCTION,
     C_INSTRUCTION,
 } instruction_types_te;

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
 
 # Source files
-SRC = assembler.c parser.c
+SRC = assembler.c parser.c code.c symbol_table.c
 # Object files
 OBJ = $(SRC:.c=.o)
 # Executable name
@@ -16,7 +16,7 @@ $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
 
 # Compile C files into object files
-%.o: %.c parser.h
+%.o: %.c parser.h code.h symbol_table.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean build files

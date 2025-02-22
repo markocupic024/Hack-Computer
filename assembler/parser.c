@@ -3,6 +3,7 @@
 parsed_line_ts parser_parseLine(char *line)
 {
     parsed_line_ts parsed_line = {0};
+    parsed_line.instruction_type = INVALID_INSTRUCTION;
 
     line[strcspn(line, "\n")] = '\0';
 
@@ -22,11 +23,23 @@ parsed_line_ts parser_parseLine(char *line)
     if (*ptr == A_INSTRUCTION_SYMBOL)
     {
         parsed_line.instruction_type = A_INSTRUCTION;
-        parsed_line.instruction.a_value = (uint16_t)strtoul(ptr + 1, NULL, 10);
+        size_t parsed_a_instruction = strtoul(ptr + 1, NULL, 10);
+        parsed_line.instruction.a_value = (uint16_t)parsed_a_instruction;
+
+        if (parsed_a_instruction > A_INSTRUCTION_VALUE_MAX)
+        {
+            fprintf(stderr, "assembler: A-instruction value out of range: %zu\n", parsed_a_instruction);
+            exit(EXIT_FAILURE);
+        }
     }
     else
     {
         parsed_line.instruction_type = C_INSTRUCTION;
+        parsed_line.instruction.instruction_fields = (instruction_fields_ts){
+            .dest = "null",
+            .comp = "null",
+            .jump = "null"};
+
         char *dest = NULL, *comp = NULL, *jump = NULL;
 
         char *dest_symbol = strchr(ptr, C_INSTRUCTION_DEST_SYMBOL);
