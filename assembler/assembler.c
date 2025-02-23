@@ -60,7 +60,7 @@ int main(int argc, char **argv)
         if (parsed_line.instruction_type == A_INSTRUCTION)
         {
             fprintf(hack_file, "%d", A_INSTRUCTION_MSB);
-            for (int i = A_INSTRUCTION_LSB - 1; i >= 0; i--)
+            for (size_t i = A_INSTRUCTION_LSB - 1; i >= 0; i--)
             {
                 fprintf(hack_file, "%d", (parsed_line.instruction.a_value >> i) & 1); // Shift each bit right and then mask LSB
             }
