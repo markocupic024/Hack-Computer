@@ -16,7 +16,7 @@ $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
 
 # Compile C files into object files
-%.o: %.c parser.h code.h symbol_table.h
+%.o: %.c parser.h code.h symbol_table.h hack_symbols.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean build files

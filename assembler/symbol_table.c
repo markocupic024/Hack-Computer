@@ -29,11 +29,10 @@ bool symbol_table_set(symbol_table_ts *table, char *key, size_t value)
 {
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD)
     {
-        symbol_table_adjustCapacity(table, table->capacity * 2);
+        size_t new_capacity = table->capacity ? table->capacity * 2 : 2;
+        symbol_table_adjustCapacity(table, new_capacity);
     }
-
     uint32_t hash = hash_string(key, strlen(key));
-
     entry_ts *entry = symbol_table_findEntry(table->entries, table->capacity, key, hash);
     bool is_new_key = entry->key == NULL;
     if (is_new_key)
@@ -105,7 +104,7 @@ static entry_ts *symbol_table_findEntry(entry_ts *entries, size_t capacity, char
     for (;;)
     {
         entry_ts *entry = &entries[index];
-        if (strcmp(entry->key, key) == 0 || entry->key == NULL)
+        if (entry->key == NULL || !strcmp(entry->key, key))
         {
             return entry;
         }

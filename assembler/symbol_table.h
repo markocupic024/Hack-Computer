@@ -1,6 +1,7 @@
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 
+#define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -11,15 +12,15 @@
 
 typedef struct
 {
-    char *key;
     size_t value;
+    char *key;
 } entry_ts;
 
 typedef struct
 {
+    entry_ts *entries;
     size_t count;
     size_t capacity;
-    entry_ts *entries;
 } symbol_table_ts;
 
 void symbol_table_init(symbol_table_ts *table);
