@@ -12,7 +12,7 @@ The **Nand2Tetris** course is a hands-on journey through the elements of computi
 
 ## Implementation Details
 
-The project is written in **C**, and I am currently in the process of learning and improving my C programming skills. This implementation serves as both a learning exercise and a practical application of the concepts taught in the Nand2Tetris course.
+The project is written in **C/C++**, and I am currently in the process of learning and improving my C and C++ programming skills. This implementation serves as both a learning exercise and a practical application of the concepts taught in the Nand2Tetris course.
 
 ### Features
 
