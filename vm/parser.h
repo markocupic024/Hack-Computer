@@ -1,16 +1,9 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "command_type.h"
 #include <string>
 #include <fstream>
-
-enum CommandType
-{
-    EMPTY,
-    ARITHMETIC,
-    PUSH,
-    POP
-};
 
 class Parser
 {

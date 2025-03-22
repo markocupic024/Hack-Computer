@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(vm
     vm.cpp
-    parser.cpp 
+    parser.cpp
+    code_writer.cpp
 )
 
 target_include_directories(vm PRIVATE ${CMAKE_SOURCE_DIR})

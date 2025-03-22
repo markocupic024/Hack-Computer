@@ -1,8 +1,11 @@
 #include "parser.h"
+#include "code_writer.h"
+#include "command_type.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <filesystem>
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -29,7 +32,8 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    fs::path asmFileName = inputPath.replace_extension(".asm");
+    fs::path asmFileName = inputPath;
+    asmFileName.replace_extension(".asm");
 
     std::ifstream vmFile(vmFileName, std::ios::in);
     if (!vmFile)
@@ -38,29 +42,27 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    Parser parser(vmFile);
+    std::unique_ptr<Parser> parser = std::make_unique<Parser>(vmFile);
+    std::unique_ptr<CodeWriter> codeWriter = std::make_unique<CodeWriter>(asmFileName);
 
-    while (parser.hasMoreLines())
+    while (parser->hasMoreLines())
     {
-        parser.advance();
-        CommandType commandType = parser.commandType();
+        parser->advance();
+        CommandType commandType = parser->commandType();
 
-        if (commandType == CommandType::EMPTY)
+        switch (commandType)
         {
-            continue;
-        }
-
-        if (commandType == CommandType::ARITHMETIC)
-        {
-            std::cout << parser.arg1() << '\n';
-        }
-        else if (commandType == CommandType::POP)
-        {
-            std::cout << parser.arg1() << " " << parser.arg2() << '\n';
-        }
-        else if (commandType == CommandType::PUSH)
-        {
-            std::cout << parser.arg1() << " " << parser.arg2() << '\n';
+        case CommandType::ARITHMETIC:
+            codeWriter->writeArithmetic(parser->arg1());
+            break;
+        case CommandType::POP:
+            codeWriter->writePushPop(CommandType::POP, parser->arg1(), parser->arg2());
+            break;
+        case CommandType::PUSH:
+            codeWriter->writePushPop(CommandType::PUSH, parser->arg1(), parser->arg2());
+            break;
+        default:
+            break;
         }
     }
 

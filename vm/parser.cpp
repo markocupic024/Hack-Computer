@@ -1,6 +1,8 @@
 #include "parser.h"
+#include <stdexcept>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 Parser::Parser(std::ifstream &inputFile) : vmFile(inputFile)
 {
